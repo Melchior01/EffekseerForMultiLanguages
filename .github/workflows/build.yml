@@ -313,38 +313,3 @@ jobs:
           done
           set +f
 
-  windowsExamples:
-    name: Build Windows Samples
-    runs-on: vs2017-win2016
-    steps:
-      - uses: actions/checkout@v2
-        with:
-            fetch-depth: 1
-            submodules: true
-      
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
-
-      - name: Install dependencies for windows-latest
-        uses: crazy-max/ghaction-chocolatey@v1
-        with:
-          args: install swig 
-        
-      - name: Build
-        run: |
-         cd src
-         ./generate_swig_wrapper.bat
-         cd ..
-         cd examples
-         python build_libGtxSample.py
-        shell: cmd
-
-      - name: libGDX_Sample
-        uses: actions/upload-artifact@v1
-        with:
-          name: libGdxSample-windows
-          path: examples/libGdxSample
-
-
